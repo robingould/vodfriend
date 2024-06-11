@@ -146,14 +146,3 @@ class LeagueClient:
             if participant['puuid'] == puuid:
                 result = f"{participant['riotIdGameName']}#{participant['riotIdTagline']} played {participant['championName']}, reached level {participant['champLevel']} and placed {participant['placement']} and went {participant['kills']} kills {participant['deaths']} deaths {participant['assists']} assists"
         return result
-
-if __name__ == "__main__":
-    lc = LeagueClient()
-    user = "syferhalo#NA1"
-    region = "americas"
-    #account_by_riotid = lc.getAccountByRiotID(user, region)
-    puuid = lc.getPUUIDByRiotID(user, region)
-    #account_by_puuid = lc.getAccountByPUUID(puuid, region)
-    #matches = lc.getMatchesByPUUID(puuid, region, count=5)
-    lc.getMatch(puuid=puuid, match_id="NA1_4993163735", region=region)
-    #latest_timeline = lc.getMatchTimeline(matches[0])

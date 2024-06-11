@@ -128,9 +128,4 @@ class TwitchClient:
         data = self.get_clips_between(login, start_time, end_time)
         return data
 
-if __name__ == "__main__":
-    tc = TwitchClient()
-    tc.get_token()
-    print(tc.get_latest_streams('sleepy', 1)[0]['url'])
-    #print(tc.get_latest_vod_clips("sleepy"))
     
