@@ -43,3 +43,17 @@ def parse_twitch_endtime(start_time, duration):
     end_time_preprocessed = dt + time_delta
     end_time = end_time_preprocessed.strftime("%Y-%m-%dT%H:%M:%SZ")
     return end_time
+
+def parse_twitch_timestamp(seconds):
+    hours = seconds // 3600
+    minutes = (seconds % 3600) // 60
+    seconds = seconds % 60
+    return f"{hours:02d}h{minutes:02d}m{seconds:02d}s"
+
+def parse_riot_epochtime(timestamp):
+    dt = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
+
+    # Convert to Unix epoch time
+    epoch = int(dt.timestamp())
+    
+    return epoch

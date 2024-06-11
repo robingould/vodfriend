@@ -2,3 +2,5 @@ requests
 python-dotenv
 discord
 responses
+imgkit
+wkhtmltopdf

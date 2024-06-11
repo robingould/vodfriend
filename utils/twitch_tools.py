@@ -1,6 +1,6 @@
 import os
 import json
-import helpers
+import utils.helpers as helpers
 import requests
 from dotenv import load_dotenv
 
@@ -52,7 +52,7 @@ class TwitchClient:
         if response.status_code == 401:
             print("Token expired, retrying...")
             self.get_token()
-            return self.get_userid(self, login)
+            return self.get_userid(login)
                 
         response.raise_for_status()
         
@@ -74,10 +74,10 @@ class TwitchClient:
         user_id = self.get_userid(login)
         url = f'{self.request_url}videos?user_id={user_id}&sort=time&type=archive&first={str(num_streams)}'
         latest_streams = self.session.get(url).json()
-        return latest_streams
+        return latest_streams['data']
     
     def get_latest_vod_views(self, login: str, num_streams: int = 20) -> list:
-        latest_streams = self.get_latest_streams(login, num_streams)['data']
+        latest_streams = self.get_latest_streams(login, num_streams)
         views = [(login, f'last {num_streams} view counts')]
         for vod in latest_streams:
             start_time = vod['created_at']
@@ -95,10 +95,10 @@ class TwitchClient:
         user_id = self.get_userid(login)
         url = f'{self.request_url}clips?broadcaster_id={user_id}&sort=time&started_at={started_at}&ended_at={ended_at}'
         clips = self.session.get(url).json()
-        return clips
+        return clips['data']
     
     def get_latest_clip_views(self, login: str, num_clips: int = 20) -> list:
-        latest_clips = self.get_latest_clips(login, num_clips)['data']
+        latest_clips = self.get_latest_clips(login, num_clips)
         views = [(login, f'last {num_clips} view counts')]
         for clip in latest_clips:
             start_time = clip['created_at']
@@ -109,16 +109,28 @@ class TwitchClient:
     # Niche use cases
     def get_last_vod_timestamps(self, login: str):
         latest_vod = self.get_latest_streams(login, num_streams=1)
-        start_time = latest_vod['data'][0]['created_at']
-        duration = latest_vod['data'][0]['duration']
+        start_time = latest_vod[0]['created_at']
+        duration = latest_vod[0]['duration']
         response_string = f"{login} last started streaming at {start_time} and streamed for {duration}"
         print(response_string)
         return start_time, duration
     
+    def get_last_vod_timestamps_string(self, login: str):
+        latest_vod = self.get_latest_streams(login, num_streams=1)
+        start_time = latest_vod[0]['created_at']
+        duration = latest_vod[0]['duration']
+        response_string = f"{login} last started streaming at {start_time} and streamed for {duration}"
+        return response_string
+    
     def get_latest_vod_clips(self, login: str):
         start_time, duration = self.get_last_vod_timestamps(login)
         end_time = helpers.parse_twitch_endtime(start_time, duration)
-        return self.get_clips_between(login, start_time, end_time)
+        data = self.get_clips_between(login, start_time, end_time)
+        return data
 
-
-
+if __name__ == "__main__":
+    tc = TwitchClient()
+    tc.get_token()
+    print(tc.get_latest_streams('sleepy', 1)[0]['url'])
+    #print(tc.get_latest_vod_clips("sleepy"))
+    

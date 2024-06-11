@@ -3,7 +3,7 @@ import requests
 from dotenv import load_dotenv
 from urllib.parse import urlencode
 
-load_dotenv()
+load_dotenv(override=True)
 
 RIOT_SECRET = os.getenv("RIOT_SECRET")
 RIOT_URL = os.getenv("RIOT_URL", f"https://americas.api.riotgames.com")
@@ -73,7 +73,7 @@ class LeagueClient:
         
         return self._sendRequest(url=url, params=params)
 
-    def getMatchesByPUUID(self, puuid: str, **kwargs) -> list:
+    def getMatchesByPUUID(self, puuid: str, region: str, **kwargs) -> list:
         """
         puuid the unique player id is a string that is 72 characters long
         **kwargs:
@@ -123,7 +123,7 @@ class LeagueClient:
         """
         puuid = self.getPUUIDByRiotID(riot_id, region)
         
-        return self.getMatchesByPUUID(puuid, **kwargs)
+        return self.getMatchesByPUUID(puuid, region, **kwargs)
         
     def getMatchTimeline(self, match_id: str, region: str) -> str | None:
         """
@@ -135,3 +135,25 @@ class LeagueClient:
         params = self._query()
         url = f"https://{region}.api.riotgames.com/lol/match/v5/matches/{match_id}/timeline"
         return self._sendRequest(url=url, params=params)
+    
+    def getMatch(self, puuid: str, match_id: str, region: str) -> str | None:
+        params = self._query()
+        url = f"https://{region}.api.riotgames.com/lol/match/v5/matches/{match_id}"
+        unprocessed_response = self._sendRequest(url=url, params=params)
+        participants = unprocessed_response['info']['participants']
+        result = ""
+        for participant in participants:
+            if participant['puuid'] == puuid:
+                result = f"{participant['riotIdGameName']}#{participant['riotIdTagline']} played {participant['championName']}, reached level {participant['champLevel']} and placed {participant['placement']} and went {participant['kills']} kills {participant['deaths']} deaths {participant['assists']} assists"
+        return result
+
+if __name__ == "__main__":
+    lc = LeagueClient()
+    user = "syferhalo#NA1"
+    region = "americas"
+    #account_by_riotid = lc.getAccountByRiotID(user, region)
+    puuid = lc.getPUUIDByRiotID(user, region)
+    #account_by_puuid = lc.getAccountByPUUID(puuid, region)
+    #matches = lc.getMatchesByPUUID(puuid, region, count=5)
+    lc.getMatch(puuid=puuid, match_id="NA1_4993163735", region=region)
+    #latest_timeline = lc.getMatchTimeline(matches[0])
