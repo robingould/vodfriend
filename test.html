@@ -1,31 +1,143 @@
-<div class="inner">
-<div class="css-1mk3mai ezr8g462">
-    <div class="head-group">
-        <div class="game-type">Ranked Solo</div>
-        <div class="time-stamp">
-            <div class="" style="position: relative;">3 days ago</div>
-        </div>
-    </div>
-    <div class="head-group">
-        <div class="result">Defeat</div>
-        <div class="length">15m 15s</div>
-    </div>
-</div>
-<div class="css-e10jb3 ezr8g463">
-    <div class="main">
-        <div class="info">
-            <img src="https://opgg-static.akamaized.net/meta/images/lol/14.11.1/champion/Renata.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto:good,a_0,f_webp,w_160,h_160&amp;v=1717557723274" width="48" height="48" alt="Renata Glasc">
-            <span class="champion-level">7</span>
-            <div class="GameLoadout css-k2lqdb eva4ivy0">
-                <div class="loadout-group">
-                        <img src="https://opgg-static.akamaized.net/meta/images/lol/14.11.1/spell/SummonerFlash.png?image=q_auto:good,a_0,f_webp,w_64,h_64&amp;v=1717557723274" width="22" height="22" alt="Flash">
-                        <img src="https://opgg-static.akamaized.net/meta/images/lol/14.11.1/spell/SummonerHeal.png?image=q_auto:good,a_0,f_webp,w_64,h_64&amp;v=1717557723274" width="22" height="22" alt="Heal">
-                    <div class="loadout-group">
-                        <div class="rune rune-primary" style="position: relative;">
-                            <img src="https://opgg-static.akamaized.net/meta/images/lol/14.11.1/perk/8465.png?image=q_auto:good,a_0,f_webp,w_64,h_64&amp;v=1717557723274" width="22" height="22" alt="Guardian"></div>
-                            <div class="rune" style="position: relative;"><img src="https://opgg-static.akamaized.net/meta/images/lol/14.11.1/perkStyle/8100.png?image=q_auto:good,a_0,f_webp,w_64,h_64&amp;v=1717557723274" width="22" height="22" alt="Domination"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="kda-stats"><div class="kda"><span>1</span> / <span class="d">5</span> / <span>1</span></div><div class="kda-ratio">0.40:1 KDA</div></div><div class="game-stats"><div class="p-kill"><div class="" style="position: relative;">P/Kill 40%</div></div>
+<html>
+<head>
+    <title>Game Result Card</title>
+    <style>
+        html{
+            height: 35px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 35px;
+        }
+        .game-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 50%;
+            height: 50%;
+            background-color: lightpink;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 5px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .champion {
+        	border-radius: 50%;
+            height: 55px;
+            width: 55px;
+        }
+        .game-card .left-section,
+        .game-card .right-section {
+            display: flex;
+            align-items: center;
+        }
+        .game-card .left-section {
+            flex: 1;
+        }
+        .game-card .game-info {
+            margin-left: 8px;
+        }
+        .game-card .game-info .game-type {
+            color: #d9534f;
+            font-weight: bold;
+        }
+        .game-card .game-info .timestamp {
+            color: #6c757d;
+            font-size: 10px;
+        }
+        .game-card .game-result {
+            color: #d9534f;
+            font-weight: bold;
+        }
+        .game-card .game-length {
+            color: #6c757d;
+            font-size: 12px;
+        }
+        .game-card .kda {
+            margin-left: 16px;
+        }
+        .game-card .kda span {
+            color: #d9534f;
+            font-weight: bold;
+        }
+        .game-card .kda .d {
+            color: #5bc0de;
+        }
+        .game-card .rank {
+            background-color: #6c757d;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 16px;
+        }
+        .game-card .items img {
+            width: 24px;
+            height: 24px;
+            margin-right: 4px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+        
+        .game-card .participant-list {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 16px;
+            border-left: 1px solid #e0e0e0;
+        }
+        .game-card .participant-list .participant {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .game-card .participant-list .participant img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .game-card .participant-list .participant span {
+            color: #6c757d;
+        }
+        .main .info .champion .champion-level {
+    		position: absolute;
+    		right: 0px;
+    		bottom: 0px;
+    		display: flex;
+    		width: 20px;
+    		height: 20px;
+    		-webkit-box-pack: right;
+    		justify-content: right;
+    		-webkit-box-align: right;
+    		align-items: center;
+    		font-size: 11px;
+    		font-weight: 400;
+    		line-height: 14px;
+    		color: rgb(255, 255, 255);
+    		background: rgb(32, 45, 55);
+    		border-radius: 50%;
+}
+    </style>
+</head>
+<body>
+    <div class="game-card">
+        <div class="left-section">
+            <div class="game-info">
+                <div class="game-type">Ranked Solo</div>
+                <div class="timestamp">4 days ago</div>
+                <div class="game-result">Defeat</div>
+                <div class="game-length">15m 15s</div>
             </div>
+            <div class="info">
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/14.11.1/champion/Cassiopeia.png" class="champion" alt="Champion">
+                <span class="champion-level">7</span>
+            </div>
+            <div class="kda">
+                <span>1</span> / <span class="d">5</span> / <span>1</span>
+                <div>0.40:1 KDA</div>
+            </div>
+        </div>
+        </div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 import os
 import requests
+import utils.helpers as helpers
 from dotenv import load_dotenv
 from urllib.parse import urlencode
 
@@ -12,12 +13,12 @@ class LeagueClient:
     def __init__(self):
         self.token = RIOT_SECRET
         
-    def _query(self, input: list = []):
+    def _query(self, inputs: list = []):
         params = {
             'api_key': RIOT_SECRET,
         }
-        for i in input:
-            params[i[0]] = i[1]
+        for input in inputs:
+            params[input[0]] = input[1]
         
         return params
         
@@ -89,20 +90,20 @@ class LeagueClient:
         endTime = kwargs.get('endTime', None)
         type = kwargs.get('type', None)
         count = kwargs.get('count', None)
-        input = []
+        inputs = []
         if startTime != None:
-            input.append(('startTime', startTime))
+            inputs.append(('startTime', startTime))
             
         if endTime != None:
-            input.append(('endTime', endTime))
+            inputs.append(('endTime', endTime))
         
         if type != None:
-            input.append(('type', type))
+            inputs.append(('type', type))
         
         if count != None:
-            input.append(('count', count))
+            inputs.append(('count', count))
         
-        params = self._query(input)
+        params = self._query(inputs)
         
         url = f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids"
         
@@ -140,9 +141,5 @@ class LeagueClient:
         params = self._query()
         url = f"https://{region}.api.riotgames.com/lol/match/v5/matches/{match_id}"
         unprocessed_response = self._sendRequest(url=url, params=params)
-        participants = unprocessed_response['info']['participants']
-        result = ""
-        for participant in participants:
-            if participant['puuid'] == puuid:
-                result = f"{participant['riotIdGameName']}#{participant['riotIdTagline']} played {participant['championName']}, reached level {participant['champLevel']} and placed {participant['placement']} and went {participant['kills']} kills {participant['deaths']} deaths {participant['assists']} assists"
+        result = helpers.construct_match(puuid, unprocessed_response)
         return result

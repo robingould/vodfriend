@@ -71,7 +71,7 @@ def handle_responses(msg, twitch_client, league_client) -> str:
         result = []
         result.append(f"Found that {user_string} played {len(matches)} game(s) during that stream:")
         for i in matches:
-            match_info = league_client.getMatch(puuid=puuid, match_id="NA1_4993163735", region=region)
+            match_info = league_client.getMatch(puuid=puuid, match_id=i, region=region)
             result.append(match_info)
         return result    
     else:

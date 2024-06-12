@@ -1,4 +1,6 @@
 from datetime import datetime
+from time import strftime, gmtime
+import imgkit
 
 def get_time():
     current_time = datetime.now()
@@ -57,3 +59,47 @@ def parse_riot_epochtime(timestamp):
     epoch = int(dt.timestamp())
     
     return epoch
+
+def parse_epochtime(timestamp):
+    dtime = strftime('%Y-%m-%d %H:%M:%S', gmtime(timestamp))
+    return dtime
+
+def construct_match(puuid, unprocessed_response):
+    participants = unprocessed_response['info']['participants']
+    result = []
+    timing = parse_epochtime(unprocessed_response['info']['gameEndTimestamp'])
+    duration = parse_twitch_timestamp(unprocessed_response['info']['gameDuration'])
+    found = 0
+    for participant in participants:
+        if puuid == participant['puuid']:
+            print(puuid)
+            found = 1
+            tagline = f"{participant['riotIdGameName']}#{participant['riotIdTagline']}"
+            champion_name = participant['championName']
+            level = participant['champLevel']
+            placement = participant['placement']
+            
+            if participant['win'] == True:
+                win = 'Victory'
+            else:
+                win = "Defeat"
+            kills = participant['kills'] 
+            deaths = participant['deaths'] 
+            assists = participant['assists']
+            kda = participant['challenges']['kda']
+            killParticipation = participant['challenges']['killParticipation']
+            #summoner1Id = participant['summoner1Id']
+            #summoner2Id = participant['summoner2Id']
+            champion_image = f"https://ddragon.leagueoflegends.com/cdn/14.11.1/img/champion/{champion_name}.png"
+            body = f"<div><img src={champion_image}> <div>{kills} / {deaths} / {assists} </div></div>"
+            imgkit.from_string(body, 'out.jpg')
+            return 'out.jpg'
+            
+            
+    if found == 0:
+        return "Error, couldn't find player"
+    
+            
+    
+    
+    
