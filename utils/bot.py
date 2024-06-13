@@ -1,4 +1,4 @@
-import os
+import os, shutil
 import discord
 import utils.twitch_tools as twitch_tools
 import utils.league_tools as league_tools
@@ -12,10 +12,24 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 async def send_message(message, user_message, is_private, twitch_client, league_client):
     try:
         response = response_tools.handle_responses(user_message, twitch_client, league_client)
-        #print(response)
-        if isinstance(response, list):        
-            for msg in response:
-                await message.author.send(msg) if is_private else await message.channel.send(msg)
+        if isinstance(response, list):
+            await message.author.send(response[0]) if is_private else await message.channel.send(response[0])
+            for msg in response[1:]:
+                print(msg)
+                img, stamp = msg
+                file = discord.File(img)
+                await message.author.send(file=file, content=f"<{stamp}>") if is_private else await message.channel.send(file=file, content=f"<{stamp}>")
+            # try to delete everything in images
+            folder = 'images'
+            for filename in os.listdir(folder):
+                file_path = os.path.join(folder, filename)
+                try:
+                    if os.path.isfile(file_path) or os.path.islink(file_path):
+                        os.unlink(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+                except Exception as e:
+                    print('Failed to delete %s. Reason: %s' % (file_path, e))
         else:
             await message.author.send(response) if is_private else await message.channel.send(response)
     

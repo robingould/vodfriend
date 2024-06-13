@@ -34,13 +34,9 @@ def handle_responses(msg, twitch_client, league_client) -> str:
     
     if p_msg.startswith("!latestvod"):
         user_string = p_msg.split(" ")[1].strip()
-        print("user_string: " + user_string)
         timestamps = twitch_client.get_last_vod_timestamps_string(user_string)
-        print("timestamps: " + timestamps)
         vod_clips = twitch_client.get_latest_vod_clips(user_string)
-        print(vod_clips)
         url = twitch_client.get_latest_streams('sleepy', 1)[0]['url']
-        print("url: " + url)
         result = []
         result.append(timestamps)
         result.append(f"Vod link: {url}")
@@ -54,25 +50,28 @@ def handle_responses(msg, twitch_client, league_client) -> str:
     
     if p_msg.startswith("!last_vod_opgg"):
         user_string = p_msg.split(" ")[1].strip()
-        print(user_string)
         riot_id = p_msg.split(" ")[2].strip()
         region = p_msg.split(" ")[3].strip()
-        print(riot_id)
         puuid = league_client.getPUUIDByRiotID(riot_id, region)
-        print(puuid)
         start_time, duration = twitch_client.get_last_vod_timestamps(user_string)
         end_time = helpers.parse_twitch_endtime(start_time, duration)
-        
         startTime = helpers.parse_riot_epochtime(start_time)
-        print(startTime)
         endTime = helpers.parse_riot_epochtime(end_time)
+        print(startTime)
         print(endTime)
         matches = league_client.getMatchesByRiotID(riot_id, region, startTime=startTime, endTime=endTime)
+        print(matches)
+        url = twitch_client.get_latest_streams(user_string, 1)[0]['url']
+        print(url)
+        timestamp = ""
         result = []
         result.append(f"Found that {user_string} played {len(matches)} game(s) during that stream:")
-        for i in matches:
-            match_info = league_client.getMatch(puuid=puuid, match_id=i, region=region)
-            result.append(match_info)
-        return result    
+        for match in matches:
+            match_info, timestamp = league_client.getMatch(puuid=puuid, match_id=match, region=region)
+            print(timestamp)
+            processed_timestamp = int(timestamp) - int(startTime)
+            stamped_url = url + f"?t={helpers.parse_twitch_timestamp(processed_timestamp)}"
+            result.append((match_info, stamped_url))
+        return result 
     else:
         return "unknown command, ignoring"

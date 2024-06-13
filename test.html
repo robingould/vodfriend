@@ -1,143 +1,76 @@
-<html>
-<head>
-    <title>Game Result Card</title>
-    <style>
-        html{
-            height: 35px;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            min-height: 35px;
-        }
-        .game-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 50%;
-            height: 50%;
-            background-color: lightpink;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 8px;
-            margin: 5px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .champion {
-        	border-radius: 50%;
-            height: 55px;
-            width: 55px;
-        }
-        .game-card .left-section,
-        .game-card .right-section {
-            display: flex;
-            align-items: center;
-        }
-        .game-card .left-section {
-            flex: 1;
-        }
-        .game-card .game-info {
-            margin-left: 8px;
-        }
-        .game-card .game-info .game-type {
-            color: #d9534f;
-            font-weight: bold;
-        }
-        .game-card .game-info .timestamp {
-            color: #6c757d;
-            font-size: 10px;
-        }
-        .game-card .game-result {
-            color: #d9534f;
-            font-weight: bold;
-        }
-        .game-card .game-length {
-            color: #6c757d;
-            font-size: 12px;
-        }
-        .game-card .kda {
-            margin-left: 16px;
-        }
-        .game-card .kda span {
-            color: #d9534f;
-            font-weight: bold;
-        }
-        .game-card .kda .d {
-            color: #5bc0de;
-        }
-        .game-card .rank {
-            background-color: #6c757d;
-            color: #fff;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 16px;
-        }
-        .game-card .items img {
-            width: 24px;
-            height: 24px;
-            margin-right: 4px;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
-        }
-        
-        .game-card .participant-list {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-left: 16px;
-            border-left: 1px solid #e0e0e0;
-        }
-        .game-card .participant-list .participant {
-            display: flex;
-            align-items: center;
-            margin-bottom: 4px;
-        }
-        .game-card .participant-list .participant img {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        .game-card .participant-list .participant span {
-            color: #6c757d;
-        }
-        .main .info .champion .champion-level {
-    		position: absolute;
-    		right: 0px;
-    		bottom: 0px;
-    		display: flex;
-    		width: 20px;
-    		height: 20px;
-    		-webkit-box-pack: right;
-    		justify-content: right;
-    		-webkit-box-align: right;
-    		align-items: center;
-    		font-size: 11px;
-    		font-weight: 400;
-    		line-height: 14px;
-    		color: rgb(255, 255, 255);
-    		background: rgb(32, 45, 55);
-    		border-radius: 50%;
-}
-    </style>
-</head>
-<body>
-    <div class="game-card">
-        <div class="left-section">
-            <div class="game-info">
-                <div class="game-type">Ranked Solo</div>
-                <div class="timestamp">4 days ago</div>
-                <div class="game-result">Defeat</div>
-                <div class="game-length">15m 15s</div>
-            </div>
-            <div class="info">
-                <img src="https://opgg-static.akamaized.net/meta/images/lol/14.11.1/champion/Cassiopeia.png" class="champion" alt="Champion">
-                <span class="champion-level">7</span>
-            </div>
-            <div class="kda">
-                <span>1</span> / <span class="d">5</span> / <span>1</span>
-                <div>0.40:1 KDA</div>
-            </div>
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta content="jpg"/>
+        <meta  content="Landscape"/>
+    </head>
+    <body>
+        <div class='result' style='display: flex; width: 100%; min-height: 150px; border-radius: 4px; overflow: hidden; unicode-bidi: isolate;'> 
+            <div class='deco' style='min-width: 6px; width: 6px; background-color: {game_color}; display: block; unicode-bidi: isolate;'></div> 
         </div>
-        </div>
-</body>
-</html>
+        <div class='contents' style='display: flex; height: 100%; flex-direction: row; width: 100%; background-color: {background_color}; unicode-bidi: isolate;'>
+            <div class='inner' style='display: flex; padding: 0px 12px; -webkit-box-align: center; align-items: center; flex: 1 1 0%; unicode-bidi: isolate'>
+                <div class='left-section' style='width: 108px; display: flex; flex-direction: column; gap: 8px; font-size: 12px; font-weight: 400; line-height: 16px; color: gray; unicode-bidi: isolate;'>
+                                <div class='head-group' style='display: flex; flex-direction: column; white-space: nowrap; unicode-bidi: isolate; font-size: 12px; font-weight: 400; line-height: 16px; color: gray'>
+                                    <div class='game-type' style='font-weight: 700; display: block; unicode-bidi: isolate; white-space: nowrap; font-size: 12px; line-height: 16px; color: red'>{game_type}</div>
+                                    <div class='timestamp' style='display: block; unicode-bidi: isolate;font-size: 12px; font-weight: 400; line-height: 16px; color: gray; white-space: nowrap'>
+                                        <div style='position: relative;'>{timing}</div>
+                                    </div>
+                                </div>
+                                <div class='divider' style='width: 48px; height: 1px; background-color: light; opacity: 0.2; font-size: 12px; font-weight: 400; line-height: 16px; color: gray'></div>
+                                <div class='head-group' style='display: flex; flex-direction: column; white-space: nowrap; unicode-bidi: isolate; font-size: 12px; font-weight: 400; line-height: 16px; color: gray'>
+                                    <div class='result' style='font-weight: 700; display: block; unicode-bidi: isolate; white-space: nowrap; line-height: 16px; color: red'>{result}</div>
+                                    <div class='length' style='display: block; unicode-bidi: isolate; white-space: nowrap; font-size: 12px; font-weight: 400; line-height: 16px; color: gray;'>{duration}</div>
+                                </div>
+                            </div>    
+                            <div class='middle-section' style='display: flex; flex-direction: column; -webkit-box-pack: start; justify-content: flex-start; height: 100%; gap: 2px; flex: 1 1 0%; unicode-bidi: isolate; font-size: 12px;'>
+                                <div class='main' style='display: flex; align-items: center; gap: 12px; display: flex; -webkit-box-align: center; align-items: center; gap: 4px; height: 58px; unicode-bidi: isolate; font-size: 12px;'>
+                                    <div class='info' style='display: flex; -webkit-box-align: center; align-items: center; gap: 4px; height: 58px; unicode-bidi: isolate; font-size: 12px;'>
+                                        <div class='champion' style='position: relative; display: flex; -webkit-box-pack: center; justify-content: right; -webkit-box-align: center; align-items: center; min-width: 48px; color: black; text-decoration: none;'>
+                                            <img src={champion_image} width='48' height='48' style='border-radius: 50%; border: 0; vertical-align: middle; max-width: 100%; width: 48px; aspect-ratio: auto 48 / 48; height: 48px; overflow-clip-margin: content-box; overflow: clip;'>
+                                            <span class='champion-level' style='position: absolute; right: 0px; bottom: 0px; display: flex; width: 20px; height: 20px; -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; font-size: 11px; font-weight: 400; line-height: 14px; color: rgb(255, 255, 255); background: rgb(32, 45, 55); border-radius: 50%;'>{level}</span>
+                                        </div>
+                                        <div class='GameLoadout' style='display: flex; gap: 2px; unicode-bidi: isolate; font-size: 12px;'>
+                                            <div class='loadout-group' style='display: flex; flex-direction: column; gap: 2px; unicode-bidi: isolate; font-size: 12px;'>
+                                                <div class='spell' style='position: relative; display: flex; overflow: hidden; border-radius: 4px; unicode-bidi: isolate;'>
+                                                    <img src='https://opgg-static.akamaized.net/meta/images/lol/14.12.1/spell/SummonerFlash.png?image=q_auto:good,a_0,f_webp,w_64,h_64&amp;v=1717557723274' width='22' height='22' alt='Flash'>
+                                                </div>
+                                                <div class='spell' style='position: relative; display: flex; overflow: hidden; border-radius: 4px; unicode-bidi: isolate;'>
+                                                    <img src='https://opgg-static.akamaized.net/meta/images/lol/14.12.1/spell/SummonerHeal.png?image=q_auto:good,a_0,f_webp,w_64,h_64&amp;v=1717557723274' width='22' height='22' alt='Heal'>
+                                                </div>
+                                            </div>
+                                            <div class='loadout-group' style='display: flex; flex-direction: column; gap: 2px; unicode-bidi: isolate; font-size: 12px;'>
+                                                <div class='rune rune-primary' style='position: relative; display: flex; overflow: hidden; border-radius: 50%; unicode-bidi: isolate; font-size: 12px;'>
+                                                    <img src='https://opgg-static.akamaized.net/meta/images/lol/14.12.1/perk/8465.png?image=q_auto:good,a_0,f_webp,w_64,h_64&amp;v=1717557723274' width='22' height='22' alt='Guardian' style='background: rgb(0, 0, 0); aspect-ratio: 1 / 1; min-width: 22px; border: 0; vertical-align: middle; max-width: 100%;width: 22px; height: 22px; overflow-clip-margin: content-box; overflow: clip;'>
+                                                </div>
+                                                <div class='rune rune-primary' style='position: relative; display: flex; overflow: hidden; border-radius: 50%; unicode-bidi: isolate; font-size: 12px;'>
+                                                    <img src='https://opgg-static.akamaized.net/meta/images/lol/14.12.1/perkStyle/8100.png?image=q_auto:good,a_0,f_webp,w_64,h_64&amp;v=1717557723274' width='22' height='22' alt='Domination style='background: rgb(0, 0, 0); aspect-ratio: 1 / 1; min-width: 22px; border: 0; vertical-align: middle; max-width: 100%;width: 22px; height: 22px; overflow-clip-margin: content-box; overflow: clip;'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='kda-stats' style='width: 108px; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; unicode-bidi: isolate; font-size: 12px;'>
+                                        <div class='kda' style='color: gray; font-size: 15px; font-weight: 700; line-height: 22px; display: block; unicode-bidi: isolate;'>
+                                            <span style='color: black; font-size: 15px; font-weight: 700; line-height: 22px;'>{kills}</span>" / "<span class='d' style='color: red; font-size: 15px; font-weight: 700; line-height: 22px;'>{deaths}</span>" / "<span style='color: black; font-size: 15px; font-weight: 700; line-height: 22px;'>{assists}</span>
+                                        </div>
+                                            <div class='kda-ratio' style='color: var(--gray500); font-size: 12px; font-weight: 400; line-height: 16px; display: block; unicode-bidi: isolate;'>{kda}:1 KDA</div>
+                                        </div>
+                                    </div>
+                                    <div class='game-stats'>
+                                        <div class='p-kill'>
+                                            <div style='position: relative;'>P/Kill 40%</div>
+                                        </div>
+                                        <div class='ward'>Control Ward 1</div>
+                                        <div class='cs'>
+                                            <div style='position: relative;'>CS 13 (0.9)</div>
+                                        </div>
+                                        <div class='avg-tier'>
+                                            <div style='position: relative;'>diamond 3</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+    </body>
+    </html>

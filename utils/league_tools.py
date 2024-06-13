@@ -141,5 +141,5 @@ class LeagueClient:
         params = self._query()
         url = f"https://{region}.api.riotgames.com/lol/match/v5/matches/{match_id}"
         unprocessed_response = self._sendRequest(url=url, params=params)
-        result = helpers.construct_match(puuid, unprocessed_response)
-        return result
+        result, timestamp = helpers.construct_match(puuid, unprocessed_response, match_id)
+        return result, timestamp
