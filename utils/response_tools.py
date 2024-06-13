@@ -74,4 +74,4 @@ def handle_responses(msg, twitch_client, league_client) -> str:
             result.append((match_info, stamped_url))
         return result 
     else:
-        return "unknown command, ignoring"
+        print("unknown command, ignoring") 
