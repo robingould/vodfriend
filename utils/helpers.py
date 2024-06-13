@@ -234,7 +234,7 @@ def construct_match(puuid, unprocessed_response, matchid):
                                             {cs_div}
                                         </div>
                                         <div class='avg-tier'>
-                                            <div style='position: relative;'>penislow XD</div>
+                                            <div style='position: relative;'>low masta</div>
                                         </div>
                                     </div>
                                 </div>
