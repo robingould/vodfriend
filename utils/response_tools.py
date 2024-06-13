@@ -57,21 +57,16 @@ def handle_responses(msg, twitch_client, league_client) -> str:
         end_time = helpers.parse_twitch_endtime(start_time, duration)
         startTime = helpers.parse_riot_epochtime(start_time)
         endTime = helpers.parse_riot_epochtime(end_time)
-        print(startTime)
-        print(endTime)
         matches = league_client.getMatchesByRiotID(riot_id, region, startTime=startTime, endTime=endTime)
-        print(matches)
         url = twitch_client.get_latest_streams(user_string, 1)[0]['url']
-        print(url)
         timestamp = ""
         result = []
         result.append(f"Found that {user_string} played {len(matches)} game(s) during that stream:")
         for match in matches:
             match_info, timestamp = league_client.getMatch(puuid=puuid, match_id=match, region=region)
-            print(timestamp)
             processed_timestamp = int(timestamp) - int(startTime)
             stamped_url = url + f"?t={helpers.parse_twitch_timestamp(processed_timestamp)}"
             result.append((match_info, stamped_url))
         return result 
     else:
-        print("unknown command, ignoring") 
+        return "unknown command, ignoring"

@@ -250,12 +250,3 @@ def construct_match(puuid, unprocessed_response, matchid):
             
     if found == 0:
         return "Error, couldn't find player"
-    
-            
-    
-if __name__ == "__main__":
-
-    runes = communitydragon_get_augments(version)
-    print(runes)
-    #spells = ddragon_get_summs_dict(version)
-    #print(spells)

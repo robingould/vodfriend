@@ -15,7 +15,6 @@ async def send_message(message, user_message, is_private, twitch_client, league_
         if isinstance(response, list):
             await message.author.send(response[0]) if is_private else await message.channel.send(response[0])
             for msg in response[1:]:
-                print(msg)
                 img, stamp = msg
                 file = discord.File(img)
                 await message.author.send(file=file, content=f"<{stamp}>") if is_private else await message.channel.send(file=file, content=f"<{stamp}>")
@@ -30,6 +29,8 @@ async def send_message(message, user_message, is_private, twitch_client, league_
                         shutil.rmtree(file_path)
                 except Exception as e:
                     print('Failed to delete %s. Reason: %s' % (file_path, e))
+        elif response == "unknown command, ignoring":
+            pass
         else:
             await message.author.send(response) if is_private else await message.channel.send(response)
     
